@@ -10,14 +10,14 @@ import (
 	"os"
 )
 
-type Access struct {
+type access struct {
 	token string `json:"access_token"`
 }
 
 func Callback(w http.ResponseWriter, r *http.Request) {
 	code := ParseResponse(w, r)
-	accessToken := AccessToken(code, w, r)
-	fmt.Fprintf(w, accessToken.token)
+	access := AccessToken(code, w, r)
+	fmt.Println(access.token)
 }
 
 func ParseResponse(w http.ResponseWriter,r *http.Request) string {
@@ -29,7 +29,7 @@ func ParseResponse(w http.ResponseWriter,r *http.Request) string {
 	return code
 }
 
-func AccessToken(code string, w http.ResponseWriter,r *http.Request) Access {
+func AccessToken(code string, w http.ResponseWriter,r *http.Request) access {
 	switch os.Getenv("connection") {
 	case "DEV":
 		link = "https://auth-dev.vatsim.net/oauth/token"
@@ -62,13 +62,13 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) Access {
 		log.Fatal(errorReading)
 	}
 
-	var res Access
+	var res access
 	errDecoding := json.Unmarshal(read, &res)
 
 	if errDecoding != nil {
 		log.Fatal(errDecoding)
 	}
-
+	fmt.Println(res)
 	return res
 
 }
