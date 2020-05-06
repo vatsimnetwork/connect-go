@@ -5,10 +5,17 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"encoding/json"
+	"os"
 )
 
 func Callback(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		fmt.Fprintf(os.Stdout, "could not parse query: %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+	}
+	code := r.FormValue("code")
+	fmt.Println(code)
 	ParseResponse(r)
 }
 
@@ -20,13 +27,13 @@ func ParseResponse(r *http.Request) {
 		log.Fatal(errReading)
 	}
 
-	var response map[string]interface{}
+	//var response map[string]interface{}
 
-	errDecode := json.Unmarshal(read, &response)
+	//errDecode := json.Unmarshal(read, &response)
 
-	if errDecode != nil {
+	/*if errDecode != nil {
 		log.Fatal(errDecode)
-	}
+	}*/
 
-	fmt.Println(response)
+	fmt.Println(read)
 }
