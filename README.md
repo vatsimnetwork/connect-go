@@ -3,7 +3,7 @@
 
 Code from [MatanBudimir](https://github.com/MatanBudimir).
 
-#Installation
+<h3>Installation</h3>
 
 <code>
     go get "github.com/MatanBudimir/connect-go"
@@ -15,7 +15,7 @@ Or
 import "github.com/MatanBudimir/connect-go"
 </code>
 
-#Setup
+<h3>Setup</h3>
 
 
 Run the following commands composer install
