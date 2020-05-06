@@ -17,7 +17,7 @@ type Access struct {
 func Callback(w http.ResponseWriter, r *http.Request) {
 	code := ParseResponse(w, r)
 	accessToken := AccessToken(code, w, r)
-	fmt.Fprintf(w, accessToken)
+	fmt.Fprintf(w, accessToken.token)
 }
 
 func ParseResponse(w http.ResponseWriter,r *http.Request) string {
@@ -29,7 +29,7 @@ func ParseResponse(w http.ResponseWriter,r *http.Request) string {
 	return code
 }
 
-func AccessToken(code string, w http.ResponseWriter,r *http.Request) string {
+func AccessToken(code string, w http.ResponseWriter,r *http.Request) Access {
 	switch os.Getenv("connection") {
 	case "DEV":
 		link = "https://auth-dev.vatsim.net/oauth/token"
@@ -69,7 +69,7 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) string {
 		log.Fatal(errDecoding)
 	}
 
-	return res.token
+	return res
 
 }
 
