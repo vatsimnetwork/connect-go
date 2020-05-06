@@ -10,6 +10,7 @@ var (
 	link string
 )
 
+//Testing
 func Login(w http.ResponseWriter, r *http.Request) {
 	if CheckData() == false {
 		http.Redirect(w, r, "/connect/install", http.StatusTemporaryRedirect)
