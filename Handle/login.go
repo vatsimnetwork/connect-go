@@ -3,17 +3,18 @@ package Handle
 import (
 	"connect-go/layout"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
-	"net/url"
 )
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	if CheckData() == false {
 		http.Redirect(w, r, "/install", http.StatusTemporaryRedirect)
 	}
-	http.Redirect(w, r, "/", http.StatusPermanentRedirect)
+
+	url := "https://auth.vatsim.net/oauth/authorize?client_id=" + os.Getenv("client_id") + "&redirect_uri" + os.Getenv("redirect") + "&response_type=code&scope=full_name vatsim_details&state=fdfdadsfasfsadfsfdsafds"
+
+	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }
 
 func callback() {
