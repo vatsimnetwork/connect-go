@@ -10,14 +10,22 @@ import (
 	"os"
 )
 
-type access struct {
-	token string `json:"access_token"`
+type Access struct {
+	Token string `json:"access_token"`
+}
+
+type User struct {
+	Data Data `json:"data"`
+}
+
+type Data struct {
+	CID int `json:"cid"`
 }
 
 func Callback(w http.ResponseWriter, r *http.Request) {
 	code := ParseResponse(w, r)
 	access := AccessToken(code, w, r)
-	fmt.Println(access.token)
+	GetData(access.Token, w, r)
 }
 
 func ParseResponse(w http.ResponseWriter,r *http.Request) string {
@@ -29,7 +37,7 @@ func ParseResponse(w http.ResponseWriter,r *http.Request) string {
 	return code
 }
 
-func AccessToken(code string, w http.ResponseWriter,r *http.Request) access {
+func AccessToken(code string, w http.ResponseWriter,r *http.Request) Access {
 	switch os.Getenv("connection") {
 	case "DEV":
 		link = "https://auth-dev.vatsim.net/oauth/token"
@@ -57,19 +65,45 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) access {
 
 	defer request.Body.Close()
 
-	read, errorReading := ioutil.ReadAll(request.Body)
+	body, errorReading := ioutil.ReadAll(request.Body)
 	if errorReading != nil {
 		log.Fatal(errorReading)
 	}
 
-	var res access
-	errDecoding := json.Unmarshal(read, &res)
+	var res Access
+	errDecoding := json.Unmarshal(body, &res)
 
 	if errDecoding != nil {
 		log.Fatal(errDecoding)
 	}
-	fmt.Println(res)
-	return res
 
+	return res
+}
+
+func GetData(access_token string, w http.ResponseWriter, r *http.Request) {
+	request, err := http.NewRequest("GET", "https://auth.vatsim.net/api/user", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	request.Header.Add("Bearer", access_token)
+	request.Header.Add("accept", "application/json")
+	client := http.Client{}
+	client.Do(request)
+
+	defer request.Body.Close()
+
+	body, errReading := ioutil.ReadAll(request.Body)
+	if errReading != nil {
+		log.Fatal(errReading)
+	}
+
+
+	var userDetails map[string]interface{}
+	errJSON := json.Unmarshal(body, &userDetails)
+	if errJSON != nil {
+		log.Fatal(errJSON)
+	}
+	fmt.Println(userDetails)
 }
 
