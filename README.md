@@ -16,8 +16,4 @@ import "github.com/MatanBudimir/connect-go"
 </code>
 
 <h3>Setup</h3>
-
-
-Run the following commands composer install
-
-php artisan migrate
+After successful installation, go into your <code>main.go</code> file and paste <code></code>
