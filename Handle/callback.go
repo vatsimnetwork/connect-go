@@ -9,31 +9,20 @@ import (
 )
 
 func Callback(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
-	if err != nil {
-		fmt.Fprintf(os.Stdout, "could not parse query: %v", err)
+	code := ParseResponse(w, r)
+	AccessToken(code)
+}
+
+func ParseResponse(w http.ResponseWriter,r *http.Request) string {
+	parseError := r.ParseForm()
+	if parseError != nil {
+		fmt.Fprintf(w,"could not parse query: %v", parseError)
 		w.WriteHeader(http.StatusBadRequest)
 	}
 	code := r.FormValue("code")
-	fmt.Println(code)
-	ParseResponse(r)
+	return code
 }
 
-func ParseResponse(r *http.Request) {
-	defer r.Body.Close()
-	read, errReading := ioutil.ReadAll(r.Body)
-
-	if errReading != nil {
-		log.Fatal(errReading)
-	}
-
-	//var response map[string]interface{}
-
-	//errDecode := json.Unmarshal(read, &response)
-
-	/*if errDecode != nil {
-		log.Fatal(errDecode)
-	}*/
-
-	fmt.Println(read)
+func AccessToken(code string) string {
+	
 }
