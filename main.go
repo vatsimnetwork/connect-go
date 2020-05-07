@@ -1,11 +1,12 @@
-package connect_go
+package connect
 
 import (
 	"connect-go/handle"
 	"net/http"
 )
 
-func Url() {
+// URL function returns connect urls to main application function
+func URL() {
 	http.HandleFunc("/connect/login", Handle.Login)
 	http.HandleFunc("/connect/install", Handle.Env)
 	http.HandleFunc("/connect/callback", Handle.Callback)

@@ -1,5 +1,6 @@
 package layout
 
+// Layout function generates application layout
 func Layout(css, html, script string) string {
 	return "<html>" +
 		"<head>" +

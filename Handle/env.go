@@ -1,20 +1,34 @@
 package Handle
 
 import (
-	"fmt"
-	"os"
-	"net/http"
+	"connect-go/Helpers"
 	"connect-go/layout"
+	"fmt"
+	"net/http"
+	"os"
+	"strings"
 )
 
+// Env functions allow owners to enter Connect credentials and save them a environmental variables
+// Checks are credentials already entered, if they are it will return "Forbidden"
+// If credentials aren't entered and request is GET, function returns a form
+// If request isn't get it will save sent form
 func Env(w http.ResponseWriter, r *http.Request) {
-	if CheckData() == true {
+
+	if helpers.CheckData() == true {
+
 		error := layout.Layout("", "<form method=\"POST\" action=\"\">" +
-			"<center><h1 class=\"t-red\">Error Occurred</h1></center>" +
+			"<center><h1 style=\"color: red;\">Forbidden</h1></center>" +
 			"</form>", "")
+
 		fmt.Fprintf(w, error)
-	}
-	if r.Method == "GET" {
+
+		ip := strings.Split(r.RemoteAddr, ":")[0]
+
+		fmt.Println(ip)
+
+	} else if r.Method == "GET" {
+
 		form := layout.Layout("", "<form method=\"POST\" action=\"\">" +
 			"<center>" +
 			"<div><label>Please enter client id</label><input class=\"form-control w-50 m-2\" type=\"number\" name=\"client_id\" placeholder=\"Please enter client id\"></div>" +
@@ -29,13 +43,21 @@ func Env(w http.ResponseWriter, r *http.Request) {
 			"<center><label>Please enter scopes (separated with a space)</label><input class=\"form-control w-50 m-2\" name=\"scopes\" placeholder=\"Please enter scopes\"></center>" +
 			"<center><button type=\"submit\" class=\"btn btn-success\">Save</button></center>" +
 			"</form>", "")
+
 		fmt.Fprintf(w, form)
+
 	} else {
+
 		r.ParseForm()
+
 		os.Setenv("client_id", r.FormValue("client_id"))
+
 		os.Setenv("redirect", r.FormValue("redirect"))
+
 		os.Setenv("secret", r.FormValue("secret"))
+
 		os.Setenv("scopes", r.FormValue("scopes"))
+
 		os.Setenv("connection", r.FormValue("connection"))
 
 		http.Redirect(w, r, "/", http.StatusCreated)

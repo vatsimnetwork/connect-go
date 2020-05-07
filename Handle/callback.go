@@ -10,24 +10,31 @@ import (
 	"os"
 )
 
+// An Access represents access token which we get from AccessToken function
 type Access struct {
 	Token string `json:"access_token"`
 }
 
+// An User represents response from Connect which we get in GetData function
 type User struct {
 	Data Data `json:"data"`
 }
 
+// Data represents user details return from Connect in GetData function
 type Data struct {
 	CID int `json:"cid"`
 }
 
+// Connect callback after successful client authentication
+// Callback returns user details
 func Callback(w http.ResponseWriter, r *http.Request) {
 	code := ParseResponse(w, r)
 	access := AccessToken(code, w, r)
-	GetData(access.Token, w, r)
+	fmt.Fprintf(w, access.Token)
+	//GetData(access.Token, w, r)
 }
 
+// ParseResponse returns code provided by Connect
 func ParseResponse(w http.ResponseWriter,r *http.Request) string {
 	parseError := r.ParseForm()
 	if parseError != nil {
@@ -37,6 +44,7 @@ func ParseResponse(w http.ResponseWriter,r *http.Request) string {
 	return code
 }
 
+// AccessToken function sends a request with provided code and returns access_token provided by Connect
 func AccessToken(code string, w http.ResponseWriter,r *http.Request) Access {
 	switch os.Getenv("connection") {
 	case "DEV":
@@ -80,6 +88,7 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) Access {
 	return res
 }
 
+// GetData function returns users details (TBD)
 func GetData(access_token string, w http.ResponseWriter, r *http.Request) {
 	request, err := http.NewRequest("GET", "https://auth.vatsim.net/api/user", nil)
 	if err != nil {
