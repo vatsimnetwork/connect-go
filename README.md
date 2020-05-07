@@ -7,13 +7,13 @@ Code from [MatanBudimir](https://github.com/MatanBudimir) and [philsjh](https://
 <h3>Installation</h3>
 
 <code>
-    go get "github.com/MatanBudimir/connect-go"
+    go get "github.com/vatsimnetwork/connect-go"
 </code>
 
 Or
 
 <code>
-import "github.com/MatanBudimir/connect-go"
+import "github.com/vatsimnetwork/connect-go"
 </code>
 
 <h3>Setup</h3>
