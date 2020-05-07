@@ -29,10 +29,20 @@ type Data struct {
 
 // Callback returns user details
 func Callback(w http.ResponseWriter, r *http.Request) {
+
 	code := ParseResponse(w, r)
-	access := AccessToken(code, w, r)
-	fmt.Fprintf(w, access.Token)
-	GetData(access.Token, w, r)
+
+	if code != "" {
+
+		access, err := AccessToken(code, w, r)
+		if err != nil {
+			log.Fatal(err)
+			return
+		}
+
+		fmt.Fprintf(w, access.Token)
+		GetData(access.Token, w, r)
+	}
 }
 
 // ParseResponse returns code provided by Connect
@@ -40,13 +50,15 @@ func ParseResponse(w http.ResponseWriter,r *http.Request) string {
 	parseError := r.ParseForm()
 	if parseError != nil {
 		log.Fatal(parseError)
+		return ""
 	}
 	code := r.FormValue("code")
 	return code
 }
 
 // AccessToken function sends a request with provided code and returns access_token provided by Connect
-func AccessToken(code string, w http.ResponseWriter,r *http.Request) Access {
+func AccessToken(code string, w http.ResponseWriter,r *http.Request) (*Access, error) {
+
 	switch os.Getenv("connection") {
 	case "DEV":
 		link = "https://auth-dev.vatsim.net/oauth/token"
@@ -68,15 +80,18 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) Access {
 	request.Header.Set("Content-Type", "application/json")
 
 	if requestError != nil {
-		log.Fatal(requestError)
-	}
 
+		log.Fatal(requestError)
+		return nil, requestError
+	}
 
 	defer request.Body.Close()
 
 	body, errorReading := ioutil.ReadAll(request.Body)
+
 	if errorReading != nil {
 		log.Fatal(errorReading)
+		return nil, errorReading
 	}
 
 	var res Access
@@ -86,26 +101,34 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) Access {
 		log.Fatal(errDecoding)
 	}
 
-	return res
+	return &res, nil
 }
 
 // GetData function returns users details (TBD)
 func GetData(accessToken string, w http.ResponseWriter, r *http.Request) {
+
 	request, err := http.NewRequest("GET", "https://auth.vatsim.net/api/user", nil)
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
 
 	request.Header.Add("Bearer", accessToken)
 	request.Header.Add("accept", "application/json")
 	client := http.Client{}
-	client.Do(request)
+	resp, clientErr := client.Do(request)
 
-	defer request.Body.Close()
+	if clientErr != nil {
+		log.Fatal(clientErr)
+		return
+	}
 
-	body, errReading := ioutil.ReadAll(request.Body)
+	defer resp.Body.Close()
+
+	body, errReading := ioutil.ReadAll(resp.Body)
 	if errReading != nil {
 		log.Fatal(errReading)
+		return
 	}
 
 
@@ -113,7 +136,9 @@ func GetData(accessToken string, w http.ResponseWriter, r *http.Request) {
 	errJSON := json.Unmarshal(body, &userDetails)
 	if errJSON != nil {
 		log.Fatal(errJSON)
+		return
 	}
+
 	fmt.Println(userDetails)
 }
 
