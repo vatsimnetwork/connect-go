@@ -1,7 +1,7 @@
-package layout
+package Layout
 
-// Layout function generates application layout
-func Layout(css, html, script string) string {
+// Generate function generates application layout
+func Generate(css, html, script string) string {
 	return "<html>" +
 		"<head>" +
 		"<!-- Font Awesome -->\n<link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.8.2/css/all.css\">" +

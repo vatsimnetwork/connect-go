@@ -2,7 +2,7 @@ package Handle
 
 import (
 	"connect-go/Helpers"
-	"connect-go/layout"
+	"connect-go/Layout"
 	"fmt"
 	"net/http"
 	"os"
@@ -15,9 +15,9 @@ import (
 // If request isn't get it will save sent form
 func Env(w http.ResponseWriter, r *http.Request) {
 
-	if helpers.CheckData() == true {
+	if Helpers.CheckData() == true {
 
-		error := layout.Layout("", "<form method=\"POST\" action=\"\">" +
+		error := Layout.Generate("", "<form method=\"POST\" action=\"\">" +
 			"<center><h1 style=\"color: red;\">Forbidden</h1></center>" +
 			"</form>", "")
 
@@ -29,7 +29,7 @@ func Env(w http.ResponseWriter, r *http.Request) {
 
 	} else if r.Method == "GET" {
 
-		form := layout.Layout("", "<form method=\"POST\" action=\"\">" +
+		form := Layout.Generate("", "<form method=\"POST\" action=\"\">" +
 			"<center>" +
 			"<div><label>Please enter client id</label><input class=\"form-control w-50 m-2\" type=\"number\" name=\"client_id\" placeholder=\"Please enter client id\"></div>" +
 			"</center>" +

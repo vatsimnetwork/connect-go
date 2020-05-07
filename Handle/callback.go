@@ -32,7 +32,7 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 	code := ParseResponse(w, r)
 	access := AccessToken(code, w, r)
 	fmt.Fprintf(w, access.Token)
-	//GetData(access.Token, w, r)
+	GetData(access.Token, w, r)
 }
 
 // ParseResponse returns code provided by Connect
