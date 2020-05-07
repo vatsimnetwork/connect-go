@@ -1,5 +1,7 @@
 package Handle
 
+// Connect callback after successful client authentication
+
 import (
 	"encoding/json"
 	"fmt"
@@ -25,7 +27,6 @@ type Data struct {
 	CID int `json:"cid"`
 }
 
-// Connect callback after successful client authentication
 // Callback returns user details
 func Callback(w http.ResponseWriter, r *http.Request) {
 	code := ParseResponse(w, r)
@@ -89,13 +90,13 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) Access {
 }
 
 // GetData function returns users details (TBD)
-func GetData(access_token string, w http.ResponseWriter, r *http.Request) {
+func GetData(accessToken string, w http.ResponseWriter, r *http.Request) {
 	request, err := http.NewRequest("GET", "https://auth.vatsim.net/api/user", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	request.Header.Add("Bearer", access_token)
+	request.Header.Add("Bearer", accessToken)
 	request.Header.Add("accept", "application/json")
 	client := http.Client{}
 	client.Do(request)
