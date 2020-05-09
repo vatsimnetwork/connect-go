@@ -34,31 +34,37 @@ type vatsim struct {
 	SubDivision SubDivision `json:"subdivision"`
 }
 
+// Data represents user rating details
 type Rating struct {
 	Id int `json:"id"`
 	Long string `json:"long"`
 	Short string `json:"short"`
 }
 
+// Data represents user pilot rating details
 type Pilot struct {
 	Id int `json:"id"`
 }
 
+// Data represents user division details
 type Division struct {
 	Id string `json:"id"`
 	Name string `json:"name"`
 }
 
+// Data represents user region details
 type Region struct {
 	Id string `json:"id"`
 	Name string `json:"name"`
 }
 
+// Data represents user subdivision details
 type SubDivision struct {
 	Id string `json:"id"`
 	Name string `json:"name"`
 }
 
+// Data represents oatuh details
 type OAuth struct {
 	TokenValid string `json:"token_valid"`
 }
