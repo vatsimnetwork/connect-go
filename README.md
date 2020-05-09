@@ -16,4 +16,4 @@ Or
 import "github.com/vatsimnetwork/connect-go"
 </code>
 
-<h3>[Example Code](https://pastebin.com/79HdNQ6P)</h3>
+<h3>(Example Code)[https://pastebin.com/79HdNQ6P]</h3>
