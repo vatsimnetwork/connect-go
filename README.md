@@ -18,6 +18,7 @@ import "github.com/vatsimnetwork/connect-go"
 
 <h3>Example Code</h3>
 ```go
+
 package main
 
 import (
