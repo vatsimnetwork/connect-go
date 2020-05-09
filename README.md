@@ -17,7 +17,7 @@ import "github.com/vatsimnetwork/connect-go"
 </code>
 
 <h3>Example Code</h3>
-<code>
+```
 package main
 
 import (
@@ -45,4 +45,4 @@ func main() {
 	http.HandleFunc("/connect/callback", callback)
 	http.ListenAndServe(":69", nil)
 }
-</code>
+```
