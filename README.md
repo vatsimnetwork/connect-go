@@ -16,5 +16,33 @@ Or
 import "github.com/vatsimnetwork/connect-go"
 </code>
 
-<h3>Setup</h3>
-After successful installation, go into your <code>main.go</code> file and paste <code></code>
+<h3>Example Code</h3>
+<code>
+package main
+
+import (
+	connect "connect-go"
+	con "connect-go/handle"
+	"fmt"
+	"log"
+	"net/http"
+)
+
+func callback(w http.ResponseWriter, r *http.Request) {
+
+	user, err := con.Callback(w, r)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(user.Data)
+
+}
+
+func main() {
+	connect.URL()
+	http.HandleFunc("/connect/callback", callback)
+	http.ListenAndServe(":69", nil)
+}
+</code>
