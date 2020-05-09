@@ -9,5 +9,4 @@ import (
 func URL() {
 	http.HandleFunc("/connect/login", Handle.Login)
 	http.HandleFunc("/connect/install", Handle.Env)
-	http.HandleFunc("/connect/callback", Handle.Callback)
 }

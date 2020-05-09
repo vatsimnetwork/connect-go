@@ -4,31 +4,17 @@ package Handle
 
 import (
 	"encoding/json"
-	"fmt"
+	"golang.org/x/oauth2"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
 	"os"
+	"context"
 )
 
-// An Access represents access token which we get from AccessToken function
-type Access struct {
-	Token string `json:"access_token"`
-}
-
-// An User represents response from Connect which we get in GetData function
-type User struct {
-	Data Data `json:"data"`
-}
-
-// Data represents user details return from Connect in GetData function
-type Data struct {
-	CID int `json:"cid"`
-}
-
 // Callback returns user details
-func Callback(w http.ResponseWriter, r *http.Request) {
+func Callback(w http.ResponseWriter, r *http.Request) (*User, error) {
 
 	code := ParseResponse(w, r)
 
@@ -37,12 +23,14 @@ func Callback(w http.ResponseWriter, r *http.Request) {
 		access, err := AccessToken(code, w, r)
 		if err != nil {
 			log.Fatal(err)
-			return
+			return &User{}, err
 		}
 
-		fmt.Fprintf(w, access.Token)
-		GetData(access.Token, w, r)
+		user, err := GetData(access.Token, w, r)
+		return user, nil
 	}
+	log.Fatal("No code received")
+	return &User{}, nil
 }
 
 // ParseResponse returns code provided by Connect
@@ -105,40 +93,46 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) (*Access, e
 }
 
 // GetData function returns users details (TBD)
-func GetData(accessToken string, w http.ResponseWriter, r *http.Request) {
+func GetData(accessToken string, w http.ResponseWriter, r *http.Request) (*User, error) {
 
-	request, err := http.NewRequest("GET", "https://auth.vatsim.net/api/user", nil)
+	ctx := context.Background()
+	client := oauth2.NewClient(ctx, oauth2.StaticTokenSource(&oauth2.Token{
+		AccessToken: accessToken,
+		TokenType:   "Bearer",
+	}))
+
+	switch os.Getenv("connection") {
+	case "LIVE":
+		link = "https://auth.vatsim.net/api/user"
+	case "DEV":
+		link = "https://auth-dev.vatsim.net/api/user"
+	default:
+		http.Redirect(w, r, "/", http.StatusPermanentRedirect)
+	}
+
+	req, err := client.Get(link)
+
 	if err != nil {
 		log.Fatal(err)
-		return
+		return &User{}, err
 	}
 
-	request.Header.Add("Bearer", accessToken)
-	request.Header.Add("accept", "application/json")
-	client := http.Client{}
-	resp, clientErr := client.Do(request)
+	defer req.Body.Close()
 
-	if clientErr != nil {
-		log.Fatal(clientErr)
-		return
+	body, errRead := ioutil.ReadAll(req.Body)
+
+	if errRead != nil {
+		log.Fatal(errRead)
+		return &User{}, errRead
 	}
 
-	defer resp.Body.Close()
-
-	body, errReading := ioutil.ReadAll(resp.Body)
-	if errReading != nil {
-		log.Fatal(errReading)
-		return
+	var user User
+	errDecoding := json.Unmarshal(body, &user)
+	if errDecoding != nil {
+		log.Fatal(errDecoding)
+		return &User{}, errDecoding
 	}
 
-
-	var userDetails map[string]interface{}
-	errJSON := json.Unmarshal(body, &userDetails)
-	if errJSON != nil {
-		log.Fatal(errJSON)
-		return
-	}
-
-	fmt.Println(userDetails)
+	return &user, nil
 }
 
