@@ -12,59 +12,59 @@ type User struct {
 
 // Data represents user details return from Connect in GetData function
 type Data struct {
-	Cid int `json:"cid"`
+	CID int `json:"cid"`
 	Personal Personal `json:"personal"`
-	Vatsim vatsim `json:"vatsim"`
+	Vatsim Vatsim `json:"vatsim"`
 	OAuth OAuth `json:"oauth"`
 }
 
-// Data represents user personal details
+// Personal represents user personal details
 type Personal struct {
-	Name_first string `json:"name_first"`
-	Name_last string `json:"name_last"`
-	Name_full string `json:"name_full"`
+	NameFirst string `json:"name_first"`
+	NameLast string `json:"name_last"`
+	NameFull string `json:"name_full"`
 }
 
-// Data represents user vatsim details
-type vatsim struct {
+// Vatsim represents user vatsim details
+type Vatsim struct {
 	Rating Rating `json:"rating"`
 	PilotRating Pilot `json:"pilotrating"`
 	Division Division `json:"division"`
 	Region Region `json:"region"`
-	SubDivision SubDivision `json:"subdivision"`
+	Subdivision Subdivision `json:"subdivision"`
 }
 
-// Data represents user rating details
+// Rating represents user controller rating details
 type Rating struct {
-	Id int `json:"id"`
+	ID int `json:"id"`
 	Long string `json:"long"`
 	Short string `json:"short"`
 }
 
-// Data represents user pilot rating details
+// Pilot represents user pilot rating details
 type Pilot struct {
-	Id int `json:"id"`
+	ID int `json:"id"`
 }
 
-// Data represents user division details
+// Division represents user division details
 type Division struct {
-	Id string `json:"id"`
+	ID string `json:"id"`
 	Name string `json:"name"`
 }
 
-// Data represents user region details
+// Region represents user region details
 type Region struct {
-	Id string `json:"id"`
+	ID string `json:"id"`
 	Name string `json:"name"`
 }
 
-// Data represents user subdivision details
-type SubDivision struct {
-	Id string `json:"id"`
+// Subdivision represents user subdivision details
+type Subdivision struct {
+	ID string `json:"id"`
 	Name string `json:"name"`
 }
 
-// Data represents oatuh details
+// OAuth represents oatuh details
 type OAuth struct {
 	TokenValid string `json:"token_valid"`
 }
