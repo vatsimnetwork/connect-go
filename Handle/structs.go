@@ -7,15 +7,15 @@ type Access struct {
 
 // An User represents response from Connect which we get in GetData function
 type User struct {
-	Data Data `json:"data"`
+	Data `json:"data"`
 }
 
 // Data represents user details return from Connect in GetData function
 type Data struct {
 	CID int `json:"cid"`
-	Personal Personal `json:"personal"`
-	Vatsim Vatsim `json:"vatsim"`
-	OAuth OAuth `json:"oauth"`
+	Personal `json:"personal"`
+	Vatsim `json:"vatsim"`
+	OAuth `json:"oauth"`
 }
 
 // Personal represents user personal details
@@ -27,11 +27,11 @@ type Personal struct {
 
 // Vatsim represents user vatsim details
 type Vatsim struct {
-	Rating Rating `json:"rating"`
-	PilotRating Pilot `json:"pilotrating"`
-	Division Division `json:"division"`
-	Region Region `json:"region"`
-	Subdivision Subdivision `json:"subdivision"`
+	Rating `json:"rating"`
+	Pilot `json:"pilotrating"`
+	Division `json:"division"`
+	Region `json:"region"`
+	Subdivision `json:"subdivision"`
 }
 
 // Rating represents user controller rating details
