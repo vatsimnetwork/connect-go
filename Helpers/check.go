@@ -12,7 +12,7 @@ var (
 
 // load function loads the environmental variables
 func load() {
-	if err := godotenv.Load("./.env"); err != nil {
+	if err := godotenv.Load(".env"); err != nil {
 		log.Fatal(err)
 	}
 

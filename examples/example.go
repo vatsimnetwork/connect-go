@@ -10,7 +10,7 @@ import (
 
 func callback(w http.ResponseWriter, r *http.Request) {
 
-	user, err := Handle.Callback(w, r)
+	user, err := handle.Callback(w, r)
 
 	if err != nil {
 		log.Fatal(err)
