@@ -95,8 +95,7 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) (*Access, e
 // GetData function returns users details (TBD)
 func GetData(accessToken string, w http.ResponseWriter, r *http.Request) (*User, error) {
 
-	ctx := context.Background()
-	client := oauth2.NewClient(ctx, oauth2.StaticTokenSource(&oauth2.Token{
+	client := oauth2.NewClient(context.Background(), oauth2.StaticTokenSource(&oauth2.Token{
 		AccessToken: accessToken,
 		TokenType:   "Bearer",
 	}))

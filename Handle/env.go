@@ -29,7 +29,7 @@ func Env(w http.ResponseWriter, r *http.Request) {
 
 	} else if r.Method == "GET" {
 
-		form := Layout.Generate("", "<form method=\"POST\" action=\"\">" +
+		form := layout.Generate("", "<form method=\"POST\" action=\"\">" +
 			"<center>" +
 			"<div><label>Please enter client id</label><input class=\"form-control w-50 m-2\" type=\"number\" name=\"client_id\" placeholder=\"Please enter client id\"></div>" +
 			"</center>" +
