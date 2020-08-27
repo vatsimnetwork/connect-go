@@ -18,7 +18,7 @@ func callback(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(user)
 
-	fmt.Printf("%v (%v)", user.NameFull, user.CID)
+	fmt.Printf("%s (%d)", user.NameFull, user.CID)
 
 }
 
