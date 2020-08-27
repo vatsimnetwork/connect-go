@@ -27,6 +27,10 @@ func Callback(w http.ResponseWriter, r *http.Request) (*User, error) {
 		}
 
 		user, err := UserApi(access.Token, w, r)
+		if err != nil {
+			log.Fatal(err)
+			return &User{}, err
+		}
 		return user, nil
 	}
 	log.Fatal("No code received")
