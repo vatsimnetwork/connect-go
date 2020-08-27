@@ -1,8 +1,8 @@
-package Handle
+package handle
 
 import (
-	"connect-go/Helpers"
-	"connect-go/Layout"
+	"connect-go/helpers"
+	"connect-go/layout"
 	"fmt"
 	"net/http"
 	"os"
@@ -15,9 +15,9 @@ import (
 // If request isn't get it will save sent form
 func Env(w http.ResponseWriter, r *http.Request) {
 
-	if Helpers.CheckData() == true {
+	if helpers.CheckData() == true {
 
-		error := Layout.Generate("", "<form method=\"POST\" action=\"\">" +
+		error := layout.Generate("", "<form method=\"POST\" action=\"\">" +
 			"<center><h1 style=\"color: red;\">Forbidden</h1></center>" +
 			"</form>", "")
 

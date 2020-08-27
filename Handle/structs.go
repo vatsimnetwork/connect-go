@@ -1,4 +1,4 @@
-package Handle
+package handle
 
 // An Access represents access token which we get from AccessToken function
 type Access struct {

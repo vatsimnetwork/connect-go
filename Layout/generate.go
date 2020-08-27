@@ -1,4 +1,4 @@
-package Layout
+package layout
 
 // Generate function generates application layout
 func Generate(css, html, script string) string {

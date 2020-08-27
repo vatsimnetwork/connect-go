@@ -1,4 +1,4 @@
-package Handle
+package handle
 
 // Connect callback after successful client authentication
 
