@@ -92,7 +92,7 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) (*Access, e
 	return &res, nil
 }
 
-// GetData function returns users details (TBD)
+// UserApi function returns users details
 func UserApi(accessToken string, w http.ResponseWriter, r *http.Request) (*User, error) {
 
 	client := oauth2.NewClient(context.Background(), oauth2.StaticTokenSource(&oauth2.Token{

@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	client_id, redirect, secret, scopes, connection string
+	clientID, redirect, secret, scopes, connection string
 )
 
 // load function loads the environmental variables
@@ -16,7 +16,7 @@ func load() {
 		log.Fatal(err)
 	}
 
-	client_id = os.Getenv("CLIENT_ID")
+	clientID = os.Getenv("CLIENT_ID")
 	redirect = os.Getenv("REDIRECT")
 	scopes = os.Getenv("SCOPES")
 	secret = os.Getenv("SECRET")
@@ -27,7 +27,7 @@ func load() {
 // CheckData function checks are any of these environmental variables empty
 func CheckData() (r bool) {
 	load()
-	if client_id == "" || redirect == "" || secret == "" || scopes == "" || connection == "" {
+	if clientID == "" || redirect == "" || secret == "" || scopes == "" || connection == "" {
 		return false
 	}
 	return true
