@@ -12,32 +12,32 @@ type User struct {
 
 // Data represents user details return from Connect in GetData function
 type Data struct {
-	CID int `json:"cid"`
+	CID      int `json:"cid"`
 	Personal `json:"personal"`
-	Vatsim `json:"vatsim"`
-	OAuth `json:"oauth"`
+	Vatsim   `json:"vatsim"`
+	OAuth    `json:"oauth"`
 }
 
 // Personal represents user personal details
 type Personal struct {
 	NameFirst string `json:"name_first"`
-	NameLast string `json:"name_last"`
-	NameFull string `json:"name_full"`
+	NameLast  string `json:"name_last"`
+	NameFull  string `json:"name_full"`
 }
 
 // Vatsim represents user vatsim details
 type Vatsim struct {
-	Rating `json:"rating"`
-	Pilot `json:"pilotrating"`
-	Division `json:"division"`
-	Region `json:"region"`
+	Rating      `json:"rating"`
+	Pilot       `json:"pilotrating"`
+	Division    `json:"division"`
+	Region      `json:"region"`
 	Subdivision `json:"subdivision"`
 }
 
 // Rating represents user controller rating details
 type Rating struct {
-	ID int `json:"id"`
-	Long string `json:"long"`
+	ID    int    `json:"id"`
+	Long  string `json:"long"`
 	Short string `json:"short"`
 }
 
@@ -48,19 +48,19 @@ type Pilot struct {
 
 // Division represents user division details
 type Division struct {
-	ID string `json:"id"`
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
 // Region represents user region details
 type Region struct {
-	ID string `json:"id"`
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
 // Subdivision represents user subdivision details
 type Subdivision struct {
-	ID string `json:"id"`
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 

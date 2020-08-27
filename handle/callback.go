@@ -3,6 +3,7 @@ package handle
 // Connect callback after successful client authentication
 
 import (
+	"context"
 	"encoding/json"
 	"golang.org/x/oauth2"
 	"io/ioutil"
@@ -10,7 +11,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"context"
 )
 
 // Callback returns user details
@@ -38,7 +38,7 @@ func Callback(w http.ResponseWriter, r *http.Request) (*User, error) {
 }
 
 // ParseResponse returns code provided by Connect
-func ParseResponse(w http.ResponseWriter,r *http.Request) string {
+func ParseResponse(w http.ResponseWriter, r *http.Request) string {
 	parseError := r.ParseForm()
 	if parseError != nil {
 		log.Fatal(parseError)
@@ -49,7 +49,7 @@ func ParseResponse(w http.ResponseWriter,r *http.Request) string {
 }
 
 // AccessToken function sends a request with provided code and returns access_token provided by Connect
-func AccessToken(code string, w http.ResponseWriter,r *http.Request) (*Access, error) {
+func AccessToken(code string, w http.ResponseWriter, r *http.Request) (*Access, error) {
 
 	switch os.Getenv("connection") {
 	case "DEV":
@@ -59,7 +59,6 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) (*Access, e
 	default:
 		http.Redirect(w, r, "/", http.StatusBadRequest)
 	}
-
 
 	data := url.Values{}
 	data.Set("grant_type", "authorization_code")
@@ -138,4 +137,3 @@ func UserApi(accessToken string, w http.ResponseWriter, r *http.Request) (*User,
 
 	return &user, nil
 }
-

@@ -1,9 +1,9 @@
 package helpers
 
 import (
+	"github.com/joho/godotenv"
 	"log"
 	"os"
-	"github.com/joho/godotenv"
 )
 
 var (

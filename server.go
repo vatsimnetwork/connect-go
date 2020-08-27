@@ -13,7 +13,7 @@ func URL() {
 
 // MartiniURL function returns url to marting application routes
 func MartiniURL(m martini.ClassicMartini) {
-	m.Group("/connect", func (r martini.Router) {
+	m.Group("/connect", func(r martini.Router) {
 		r.Get("/connect/login", handle.Login)
 	})
 }
