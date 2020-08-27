@@ -26,7 +26,7 @@ func Callback(w http.ResponseWriter, r *http.Request) (*User, error) {
 			return &User{}, err
 		}
 
-		user, err := GetData(access.Token, w, r)
+		user, err := UserApi(access.Token, w, r)
 		return user, nil
 	}
 	log.Fatal("No code received")
@@ -93,7 +93,7 @@ func AccessToken(code string, w http.ResponseWriter,r *http.Request) (*Access, e
 }
 
 // GetData function returns users details (TBD)
-func GetData(accessToken string, w http.ResponseWriter, r *http.Request) (*User, error) {
+func UserApi(accessToken string, w http.ResponseWriter, r *http.Request) (*User, error) {
 
 	client := oauth2.NewClient(context.Background(), oauth2.StaticTokenSource(&oauth2.Token{
 		AccessToken: accessToken,

@@ -15,7 +15,8 @@ var (
 // Login function sends a GET request to connect with entered credentials
 func Login(w http.ResponseWriter, r *http.Request) {
 	if helpers.CheckData() == false {
-		http.Redirect(w, r, "/connect/install", http.StatusTemporaryRedirect)
+		fmt.Fprintf(w, "Please configure environmental variables")
+		return
 	}
 
 	switch os.Getenv("connection") {
